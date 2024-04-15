@@ -1,7 +1,8 @@
 package sort
 
 type MergeSort[T Number] struct {
-	arr []T
+	arr       []T
+	direction int
 }
 
 func NewMergeSort[T Number](arr []T) *MergeSort[T] {
@@ -12,6 +13,7 @@ func NewMergeSort[T Number](arr []T) *MergeSort[T] {
 //
 // direction: SORT_ASC or SORT_DESC
 func (s *MergeSort[T]) Sort(direction int) []T {
+	s.direction = direction
 	if direction == SORT_ASC {
 		s.mergeSortAsc(0, len(s.arr)-1)
 	} else {
@@ -41,15 +43,22 @@ func (s *MergeSort[T]) mergeSortDesc(low, high int) {
 }
 
 func (s *MergeSort[T]) merge(low, mid, high int) {
-	left := low
-	right := mid + 1
+	left, right := low, mid+1
+
 	for left <= mid && right <= high {
-		if s.arr[left] <= s.arr[right] {
+		switch {
+		case s.direction == SORT_ASC && s.arr[left] <= s.arr[right]:
 			left++
-		} else {
+		case s.direction != SORT_ASC && s.arr[left] >= s.arr[right]:
+			left++
+		default:
 			s.arr[left], s.arr[right] = s.arr[right], s.arr[left]
 			left++
 			right++
 		}
+	}
+
+	for i := left; i <= mid; i++ {
+		s.arr[i] = s.arr[i+1]
 	}
 }

@@ -36,3 +36,46 @@ func TestQuickSort(t *testing.T) {
 		})
 	}
 }
+
+func compareInts(a, b int) int {
+	if a < b {
+		return -1
+	} else if a > b {
+		return 1
+	} else {
+		return 0
+	}
+}
+
+func TestQuickSortBy(t *testing.T) {
+	arr := []int{5, 3, 8, 4, 2, 7, 1, 6}
+	sorter := NewQuickSortBy(arr, compareInts)
+	sortedArr := sorter.Sort()
+
+	expectedArr := []int{1, 2, 3, 4, 5, 6, 7, 8}
+	for i, v := range expectedArr {
+		if sortedArr[i] != v {
+			t.Errorf("Expected %d, but got %d", v, sortedArr[i])
+		}
+	}
+}
+
+func TestQuickSortByWithEmptyArray(t *testing.T) {
+	arr := []int{}
+	sorter := NewQuickSortBy(arr, compareInts)
+	sortedArr := sorter.Sort()
+
+	if len(sortedArr) != 0 {
+		t.Errorf("Expected empty array, but got %v", sortedArr)
+	}
+}
+
+func TestQuickSortByWithOneElement(t *testing.T) {
+	arr := []int{1}
+	sorter := NewQuickSortBy(arr, compareInts)
+	sortedArr := sorter.Sort()
+
+	if sortedArr[0] != 1 {
+		t.Errorf("Expected 1, but got %d", sortedArr[0])
+	}
+}

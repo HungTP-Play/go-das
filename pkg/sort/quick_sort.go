@@ -64,3 +64,50 @@ func (s *QuickSort[T]) partitionDesc(low, high int) int {
 	s.arr[i+1], s.arr[high] = s.arr[high], s.arr[i+1]
 	return i + 1
 }
+
+// ----------------------
+
+type QuickSortBy[T any] struct {
+	arr     []T
+	compare Compare[T]
+}
+
+func NewQuickSortBy[T any](arr []T, compare Compare[T]) *QuickSortBy[T] {
+	return &QuickSortBy[T]{arr: arr, compare: compare}
+}
+
+// Sort sorts the elements using the QuickSort algorithm.
+func (s *QuickSortBy[T]) Sort() []T {
+	s.quickSort(0, len(s.arr)-1)
+	return s.arr
+}
+
+// quickSort sorts the elements using the QuickSort algorithm.
+//
+// low: the lower index of the subarray to be sorted.
+// high: the higher index of the subarray to be sorted.
+func (s *QuickSortBy[T]) quickSort(low, high int) {
+	if low < high {
+		pivot := s.partition(low, high)
+		s.quickSort(low, pivot-1)
+		s.quickSort(pivot+1, high)
+	}
+}
+
+// partition partitions the array into two sections based on the pivot element.
+//
+// low: the lower index of the subarray to be partitioned.
+// high: the higher index of the subarray to be partitioned.
+// Returns the index where the pivot element is placed after partitioning.
+func (s *QuickSortBy[T]) partition(low, high int) int {
+	pivot := s.arr[high]
+	i := low - 1
+	for j := low; j < high; j++ {
+		if s.compare(s.arr[j], pivot) < 0 {
+			i++
+			s.arr[i], s.arr[j] = s.arr[j], s.arr[i]
+		}
+	}
+	s.arr[i+1], s.arr[high] = s.arr[high], s.arr[i+1]
+	return i + 1
+}

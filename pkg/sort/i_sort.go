@@ -13,3 +13,11 @@ const (
 type ISort[T Number] interface {
 	Sort(direction int) []T
 }
+
+// Compare is a function for comparing two elements.
+//
+// # Should return -1, 0, or 1
+//
+// In Ascending order: a < b -> -1
+// In Descending order: a < b -> 1
+type Compare[T any] func(a, b T) int
