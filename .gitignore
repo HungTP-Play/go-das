@@ -1,0 +1,14 @@
+# Binaries for program, built with `go build`
+/go/bin/
+
+# Packages not in current git repository
+/go/pkg/
+
+# Example code, test results, local caches
+/go/example/
+/go/test/
+/go/pkg/*/cache/
+/go/pkg/mod/cache/download/
+
+# Emacs Go mode caches
+/go/autocomplete/
