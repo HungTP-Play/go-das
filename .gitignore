@@ -12,3 +12,4 @@
 
 # Emacs Go mode caches
 /go/autocomplete/
+coverage
